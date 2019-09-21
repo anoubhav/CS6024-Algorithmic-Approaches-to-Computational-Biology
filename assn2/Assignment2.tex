@@ -1,0 +1,290 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,graphicx}
+
+\usepackage{hyperref}
+\newcommand{\RP}{\ensuremath{\mathsf{RP}}}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
+\newcommand{\dx}{\mathrm{d}x}
+
+\usepackage{mathtools}   % loads »amsmath«
+ 
+\newcommand*{\bfrac}[2]{\genfrac{\lbrace}{\rbrace}{0pt}{}{#1}{#2}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS6024 : Algorithmic Approaches to Computational Biology  \hfill Release Date: Aug 23}
+\vspace{3mm}\\
+\noindent 
+{\sf Assignment 2 \hfill Due Date : Aug 31, 23:55 }
+%{\sf ~\hfill }
+\vspace{3mm}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Roll No: BE16B002} \hfill  {\sf Name: Anoubhav Agarwaal}   }% put your ROLL NO AND NAME HERE
+
+%{{\sf Collaborators :}} %Names of the collaborators (if any).
+
+%{{\sf References:}} %Reference materials, if any.
+
+
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+\question[5] $[$Surprising surprises!$]$ When trying to find where in the genome DNA replication begins, every time we find a DnaA box using the most frequent 9-mer, we seem to find some other surprisingly frequent 9-mers. Why do you think this happens? List specific reasons. 
+\begin{solution}
+In prokaryotic replication origins, the most abundant repeated sequences are DnaA boxes, which are the binding sites for \textbf{chromosomal replication initiation protein DnaA}.
+\vspace{3mm}
+\\
+A DnaA box can be thought of as a ‘message’ within the DNA sequence which tells the DnaA protein where to bind. On finding a DnaA box, we seem to find other frequent 9-mers. These 9-mers can be the reverse complements of the DnaA box as the proteins bind to any one of the DNA strands without any specificity. Or, these 9-mers can be hidden* messages for some other proteins to initiate their respective functions for the survival and proper functioning of the organism. Also, it has been observed that these hidden messages tend to cluster within a genome. 
+\vspace{3mm}
+\\
+Hence, it is because of their  \textbf{biological significance}, that they appear more surprisingly frequent to us (if assumed that the genome sequence originates from a uniform distribution). However, this is untrue as even prokaryotes have come to existence only after millions of years of evolution. Due to natural selection, i.e., conservation** of what works (about genes) and extinction of what does not, the genomic sequences have distinct evolutionary biases which cannot be explained by merely sampling from a uniform distribution of A, T, G, and Cs. Also, proteins are known to bind to these sequences in more than a single location, which explains the statistical surprise of the higher frequency of occurrence ff these specific 9-mers. \textsuperscript{\cite{10.1111/j.1574-6976.2011.00300.x, bioinf_book}}
+\vspace{3mm}
+\\
+\footnotesize{* Hidden because of our limited understanding of the role of the 9-mer.}\\
+\footnotesize{** To ensure the conservation of genes and to maintain their proper function, it would be essential to have repeats of these sequences for accurate transmission to progeny cells and also to combat deleterious mutations.}
+
+\end{solution}
+
+
+\question[10] $[$Expectations in reality$]$ Given a random length-$n$ {\bf circular} genome sequence $Text$ and a fixed k-mer $Pattern$, let the random variable $X$ denote the number of exact occurrences of $Pattern$ in $Text$.
+\begin{parts}
+\part[4] Compute $E[X]$, and use it to bound the statistical significance $Pr[X \ge a]$ (aka p-value) of a 5-mer ACTAT occurring $a=3$ times in a 30-length string? What is the p-value if the 5-mer is AAAAA?\\
+(Note: Use Markov's inequality, $Pr[X \ge a] \le E[X]/a$,  for any non-negative r.v. $X$; compute $E[X]$ using ``linearity of expectation'' on $X=\sum_{i=1}^{n-k+1} X_i$, where $X_i$ is an indicator r.v. that is $1$ if $Pattern$ occurs in position $i$ in $Text$ and $0$ otherwise.)
+\begin{solution}
+Expectation is a \textbf{linear} operator and does \textbf{not} require independence of $X_{i}$'s. According to the linearity of expectation: 
+$$ E[X] = \sum_{i=1}^{n} E[X_i]$$ The genome is \textbf{circular} and thus $ E[X_i]$ for $i = n-k+1, ..., n$ is also non-zero. This is not the case for a linear genome. Here, $n = 30$ and $k = 5$.
+Also, by symmetry the expected value of the occurrence of a pattern at all positions $i$ is the same. This yields:$$E[X] =  30*E[X_1]$$
+$E[X_1] = \dfrac{1}{4^k}$, where k = 5 for ACTAT and AAAAA. Thus, $E[X] = \dfrac{30}{4^5}$. This is the expected number of occurrences for both the patterns as the statements made above are general and thus apply to both.\\
+An upper bound for the p-value can be obtained for both the patterns ACTAT and AAAAA using markov's inequality, which is given by:
+$$Pr[X \ge a] \le E[X]/a$$ Here, a = 3. Thus, p-value $= Pr[X \ge 3] \le E[X]/3$. The upper bound for the p-value is given by: $$ p-value \le \dfrac{30}{3*4^5} \approx \textbf{0.009766}$$  
+\end{solution}
+
+\part[6] Compute $E[X^2]$ and hence variance $\sigma^2$ for the 5-mer ACTAT and AAAAA, and use it to obtain a tighter bound for the above two p-values.  \\
+(Note: Use Chebyshev's inequality, $Pr[|X-E[X]| \ge k\sigma] \le 1/k^2$; again, compute $E[X^2]$ using linearity of expectation).\\
+(Bonus: Can you provide a formula for $E[X^2]$ for any k-mer $Pattern$ using its ``self-overlap'' or ``auto-correlation'' structure?)\\
+\begin{solution}
+Applying linearity of expectation to calculate $E[X^2]$ we get:
+$$X = \sum_{i=1}^{n} X_i$$
+$$ E[X^2] = E\Big[\sum_{i=1}^{n} X_i\Big]^2 = E\Big[\sum_{i=1}^{n} X_i^2 + \sum_{i\ne j}^{} X_i*X_j\Big]$$
+$$ E[X^2] = E\Big[\sum_{i=1}^{n} X_i^2\Big] + E\Big[\sum_{i\ne j}^{} X_i*X_j\Big] ;	\hspace{12mm} (1)$$
+Now, 
+$$ X_i^2 = X_i * X_i = \bfrac {1, X_i = 1}{0, X_i = 0} = X_i$$
+$$ E[X_i^2] = E[X_i] \implies E\Big[\sum_{i=1}^{n} X_i^2\Big] = \sum_{i=1}^{n}E[X_i^2] = \sum_{i=1}^{n}E[X_i] = E[X] =  \dfrac{30}{4^5} $$
+Subsitituting this value back in (1),
+$$E[X^2] = \dfrac{30}{4^5} + E\Big[\sum_{i\ne j}^{} X_i*X_j\Big] $$
+$$E[X^2] = \dfrac{30}{4^5} +  E\Big[\sum_{i > j}^{} X_i*X_j\Big] + E\Big[\sum_{i < j}^{} X_i*X_j\Big]$$
+ $$E[X^2] = \dfrac{30}{4^5} +  2*E\Big[\sum_{i < j}^{} X_i*X_j\Big]  \hspace{10mm} (2)$$
+Upto this point, the calculation for both patterns is the same, the second term in equation (2) gives the difference.\vspace{1mm}\\
+(i) For pattern ACTAT,
+
+$\sum_{i < j}^{} X_i*X_j$ has $\binom{30}{2} = 435$ terms. The pattern is \textbf{non-overlapping}. Hence, the expected value of the pattern occurring at position $i$ AND at position $j = i+1, i+2, i+3, i+4$ is zero.
+$$E\Big[\sum_{i < j < i + 5}{}^{} X_i*X_j\Big] = 0$$
+ Note: As the genome is circular it is valid for all $i$ from 1 to 30 as after position 30 it loops back to position 1. Also, the mathematical formulation is to give the general idea. It is not accurate for $i>26$.
+
+Thus, out of the 435 terms in the second summation in (2), 120 of them are zero. The remaining $X_i*X_j$ pairs are \textbf{independent}. If $X$ and $Y$ are two independent random variables, we know that their expectation is given by:\\
+$$E\Big[ X*Y\Big] = E\Big[X\Big]*E\Big[Y\Big]$$
+By symmetry of our random variables $X_i$ for i = 1,...,30, we obtain the following for the remaining $435-120 = 315$ terms:
+$$E\Big[ \sum_{j>i+5}{}^{} X_i*X_j] = \sum_{j>i+5}{} E[X_i]*E[X_j] = \sum_{j>i+5}^{} E[X_i]^2 = 315*E[X_1]^2$$
+Substituting back in (2),
+$$E\Big[ X^2\Big] = \dfrac{30}{4^5} + 2*(E\Big[\sum_{i < j < i + 5}{}^{} X_i*X_j\Big] + E\Big[\sum_{j>i+5}{}^{} X_i*X_j\Big])$$
+$$E\Big[ X^2\Big] = \dfrac{30}{4^5} + 2*( 0 + 315*E[X_1]^2) = \dfrac{30}{4^5} + \dfrac{630}{4^{10}} \approx \textbf{0.0299}$$
+
+(i) For pattern AAAAA,
+Equation (2),
+$$E\Big[X^2\Big] = \dfrac{30}{4^5} +  2*E\Big[\sum_{i < j}^{} X_i*X_j\Big]  \hspace{10mm} (2)$$
+$$E\Big[X^2\Big] = \dfrac{30}{4^5} + 2*(E\Big[\sum_{i < j < i + 5}{}^{} X_i*X_j\Big] + E\Big[\sum_{j>i+5}{}^{} X_i*X_j\Big])  \hspace{6mm} (3)$$
+The second expectation term in (3) will be the same as the one for the previous pattern as the random variables $X_i$ and $ X_j$ are independent for all $j>i+5$.
+
+$$E\Big[\sum_{j>i+5}{}^{} X_i*X_j\Big] = 315*E\Big[X_1\Big]^2 = \dfrac{315}{4^{10}}$$ 
+The first expectation term in (3) will be \textbf{non-zero} as the pattern is \textbf{completely overlapping.} The expectation of the occurrence of pattern AAAAA at position i AND position i+k (where k =1, 2, 3, 4) is equivalent to finding the probability of a stream of $(5+k)$ AA...AAs starting at position i. This is $\dfrac{1}{4^{5+k}}$. Hence, the first term in (3) is given by: 
+$$E\Big[\sum_{i < j < i + 5}{}^{} X_i*X_j\Big] = E\Big[\sum_{k = 1}^{4} \sum_{i}^{}  X_i*X_{i+k}\Big] = \sum_{k = 1}^{4} \sum_{i}^{} \dfrac{1}{4^{5+k}} = \sum_{k = 1}^{4} \dfrac{30}{4^{5+k}}  $$
+Substituting the terms back in (3) we get,
+$$E\Big[X^2\Big] = \dfrac{30}{4^5} + 2*\bigg( \sum_{k = 1}^{4} \dfrac{30}{4^{5+k}} + \dfrac{315}{4^{10}}\bigg) \approx \textbf{0.0494}$$
+
+Variance $\sigma^2$ for ACTAT = $E[X^2] -E[X]^2 \approx 0.0299 - 0.000858 = \textbf{0.0290}$\\
+Variance $\sigma^2$ for AAAAA = $E[X^2] -E[X]^2 \approx 0.0494 - 0.000858 = \textbf{0.0485}$\\
+ 
+
+\textbf{Chebyshev's inequality:} $Pr[|X-E[X]| \ge k\sigma] \le 1/k^2$. \\
+\textbf{For pattern ATCAT}: Here, $E[X] = 0.293$ and $\sigma = 0.029^{0.5} = 0.170$\\
+We want to determine a tighter bound on the p-value i.e., $Pr[X\ge3]$ using the Chebyshev's inequality as we now have information about the variance of X.
+\vspace{3mm}
+$|X-E[X]| = |X-0.293| = X-0.293$, as we are want to obtain $P[X\ge3]$. Substituting $E[X]$ and $\sigma$ it into the inequality we get,\vspace{2mm}\\
+$Pr[X\ge k*0.170 + 0.293] \le 1/k^2$ .On comparing this with $Pr[X\ge3]$.
+ $$k*0.170 + 0.293 = 3 \implies k = \dfrac{3-0.293}{0.17} = 15.924$$
+
+$$p-value\quad for\quad ATCAT= P[X\ge3]\le \dfrac{1}{15.924^2} = \textbf{0.00394}$$
+\textbf{For pattern AAAAA}: Here, $E[X] = 0.293$ and $\sigma = 0.0485^{0.5} = 0.220$\\
+We want to determine a tighter bound on the p-value i.e., $Pr[X\ge3]$ using the Chebyshev's inequality as we now have information about the variance of X.
+\vspace{3mm}
+$|X-E[X]| = |X-0.293| = X-0.293$, as we are want to obtain $P[X\ge3]$. Substituting $E[X]$ and $\sigma $ it into the inequality we get,\vspace{2mm}\\
+$Pr[X\ge k*0.220 + 0.293] \le 1/k^2$ .On comparing this with $Pr[X\ge3]$.
+ $$k*0.220 + 0.293 = 3 \implies k = \dfrac{3-0.293}{0.22} = 12.304$$
+$$p-value\quad for\quad AAAAA= P[X\ge3]\le \dfrac{1}{12.304^2} = \textbf{0.00660}$$
+
+\end{solution}
+\end{parts} 
+
+
+\question[10] $[$Random coding$]$
+You are about to implement a variant (Gibbs sampling) of one of the \href{https://doi.ieeecomputersociety.org/10.1109/MCISE.2000.814652}{top 10 algorithms of the 20th century} (Metropolis algorithm for Monte Carlo).  
+\begin{parts}
+\part[7] Solve the HackerRank Challenge  \url{https://www.hackerrank.com/assignment-2-aacb} that asks you to apply Gibbs sampling technique to find motifs in a set of sequences. Please follow random seed, pseudocount, and other instructions carefully to produce the exact same output as the test cases.
+\begin{solution}
+The link contains two code files. \textbf{gibbs sampler.py} is the gibbs sampler code I have used to find better motifs than sample output in Q3 (b). Also, it has been used in Q4 (b) for comparison with MEME output. This python file does not follow the snippets provided for pseudo random number generation. \textbf{hackerrank submission replication.py} is my attempt on replicating the snippets provided. However, I was not sucessful in reproducing the expected outputs for the test cases. This file follows (to my knowledge) all the instructions given to us.
+{\tiny \href{https://drive.google.com/open?id=1wEP9K1Kfv9KSZTkB09l4OtgD4xWafnLV}{https://drive.google.com/open?id=1wEP9K1Kfv9KSZTkB09l4OtgD4xWafnLV}}
+\end{solution}
+
+\part[3] Can you find a better-scoring motif for ``Sample Input 1'' than the one that your current algorithm outputs? What parameters of your algorithm did you tune to achieve this better-scoring motif? Feel free to run your code outside of HackerRank to answer this subquestion.
+\begin{solution}
+Yes, I found a better-scoring motif for `Sample Input 1' using the same given values for the parameters a, b, m, t, N and num\_random\_starts. I have initialized $Xo = 1$ which gives a \textbf{motif score of 73}. The given sample 1 output has a motif score of 104. Two other sets of parameters were also tried by increasing num\_random\_starts and N as these parameters can be viewed as going deeper and wider (exploitation vs. exploration) in the possible search space, respectively. \\
+Results obtained for Sample 1 (given sample output has score of 104):
+\begin{center}
+(k, t, N, num\_random\_starts, Score) : (15, 20, 2000, 2, \textbf{73})\\
+(k, t, N, num\_random\_starts, Score) : (15, 20, 2000, 20, 63)\\
+(k, t, N, num\_random\_starts, Score) : (15, 20, 4000, 60, 63)\\
+\end{center}
+Results obtained for Sample 0 (given sample output has score of 92):
+\begin{center}
+(k, t, N, num\_random\_starts, Score) : (15, 20, 2000, 2, 74)\\
+(k, t, N, num\_random\_starts, Score) : (15, 20, 2000, 20, 64)\\
+(k, t, N, num\_random\_starts, Score) : (15, 20, 4000, 25, 64)\\
+\end{center}
+\end{solution}
+\end{parts}
+
+\graphicspath{ {./images/} }
+\question[10] 
+p53 is a transcription factor that suppresses tumor growth through regulation of dozens of target genes with diverse biological functions. This master regulator is inactivated in nearly all tumors. Let's try to identify the DNA-binding motif onto which p53 transcription factor binds using a motif-finding tool called MEME (available \href{https://usegalaxy.org/tool_runner?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fiuc%2Fmeme_meme%2Fmeme_meme%2F4.12.0.0}{via Galaxy} or \href{http://meme-suite.org/tools/meme}{stand-alone}).
+
+\begin{parts}
+\part[6] Run MEME on \href{https://drive.google.com/open?id=1ylDwCNeBtZcsoB03-xNVE0aCdURpzm25}{this input fasta file} to get 3 candidate motifs. Of these three, which one do you think actually binds to p53 and why? The input fasta file contains a sample of $\sim$200-500bp sequences bound by p53 in a ChIP-seq experiment\footnote{Our initial search for motifs in the 2000-bp promoter sequences of known target genes of the p53 didn't yield expected results, so we resorted to $\sim$200-500bp p53-bound sequences obtained from the peaks of a genome-wide p53 ChIP-seq experiment described at the \href{https://www.niehs.nih.gov/research/resources/databases/p53/index.cfm}{p53 BAER} resource}. MEME may also have output two other motifs - argue by giving specific reasons whether those motifs could be true binding elements of p53? 
+\begin{solution}
+Three candidate motifs were obtained after running MEME on p53.fa. The fasta file contained 721 sequences. We allowed for zero or one occurrence per sequence(zoops). The following motifs were obtained:
+\\
+\includegraphics[width=\textwidth]{logos}
+
+Of these three, I think \textbf{the first motif logo} in the image (above) binds to p53 because of two reasons. Firstly, it has the lowest E-value of 9.1e-185. This is a statistical significance metric calculated for the motif by MEME. The E-value of a motif is based on its log likelihood ratio, width, sites, the background letter frequencies, and the size of the training set. Secondly, The number of sites(or locations in sequences) contributing to the construction of the motifis is much higher for the first motif compared to the other two. It uses 528 sites out of 721. Whereas, the other two use only 19 and 288 sites out of 721 possible sequences. The width of the motif is also a critical factor. However, that has been accounted for in the E-value.
+\end{solution}
+
+\part[4] Run your Gibbs Sampler code from last question on the sequences provided. Report the motif you found, and did it match the one output by MEME? Report the parameter values you tried and chose for motif width ($k$), number of iterations ($N$), and the number of random restarts. 
+\begin{solution}
+The gibbs sampler code was ran on the p53 fasta file using multiple combinations of parameters. Here, I am reporting only the best parameters(based on motif score) for k = 20, 41 and 29 and their corresponding motif logos. The following motif widths (k) were chosen in order to compare with the three candidate motifs obtained from MEME.\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+\hline
+ K & t & N & num\_random\_starts & Score & Max Score\\ [0.4ex] 
+ \hline
+ \hline
+20 & 721 & 8000 & 40 & 7088 &  10815\\ 
+41 & 721 & 8000 & 40 & 17405 & 22170\\ 
+29 & 721 & 8000 & 40 & 11819 & 15681 \\ 
+ \hline
+\end{tabular}
+\end{center}
+\vspace{4mm}
+The Max Score is theoretically the maximum possible difference between a consensus string and its motifs of length k. The Gibbs sampler implementation does not provide similar results to MEME. The motif scores obtained from the Gibbs sampler are very high and close to the maximum possible score. This is mainly because the gibbs sampler considers all 721 sequences to find the motifs. Whereas, MEME considers \textbf{zero or one occurrence} of a motif in a sequence. \\
+\pagebreak
+\\
+
+\textbf{Comparison of motif logos between:}
+\\
+\textbf{First} candidate motif(top) and Gibbs sampler output(bottom)
+\vspace{2mm}
+\\
+\includegraphics[width=\textwidth]{MEME20}
+\includegraphics[width=\textwidth]{20}
+\vspace{2mm}
+\\
+\textbf{Second} candidate motif(top) and Gibbs sampler output(bottom)\\
+\includegraphics[width=\textwidth]{MEME41}
+\includegraphics[width=\textwidth]{41}
+ \textbf{Third} candidate motif(top) and Gibbs sampler output(bottom)
+\vspace{2mm}
+\\
+\includegraphics[width=\textwidth]{MEME29}
+\includegraphics[width=\textwidth]{29}
+In the first candidate motif logos (k = 20), they show some similarity at positions 4, 7, 14, 15, 16, and 17. In the second candidate motif (k=41), the Gibbs sampler performs much worse with no similarity between the motif logos. Also, the information content (in bits) is very low for the Gibbs sampler output. For the third candidate motif (k = 29), the results are again poor with minimal similarity between the motifs. The only way to improve this with the current Gibbs sampling implementation is to run the code for even more larger values of N and num\_random\_start.
+\end{solution}
+\end{parts}
+
+
+\question[5] {[Research exploratorium]}: Provide properly-formatted references for papers in this solution.
+\begin{parts} 
+\part[3] Read this paper on how to read a paper \url{https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf}. What new tip/trick did you learn from this paper that you didn't already know before?
+ \begin{solution}
+I was aware of only the first pass in the three-pass approach. I had no formal methodology to perform a literature survey. This was completely new to me.
+The new tricks and tips I learned that are highly applicable to me are:
+\vspace{4mm}
+\break
+\underline{Three-pass approach}
+\begin{enumerate}
+
+\item The first pass should take from 5-10 minutes. In which one should be able to determine if the paper should be read further.
+\item Answering the 5 Cs, i.e., Category, Context, Correctness, Contributions, and Clarity after the first pass.
+\item The second pass (takes an hour) involves reading the paper with greater emphasis on understanding the figures, graphs, and ignoring proofs. The goal is to grasp the content by the end of this pass.
+\item The goal of the third pass is to re-create the work of the author. During this pass, one should jot down ideas for future work. This pass takes about 4-5 hours for a beginner. One should be able to identify the papers strong and weak points as well as its implicit assumptions.
+\end{enumerate}
+\underline{How to perform a literature survey}
+\begin{enumerate}
+
+\item Through an academic search engine such as google scholar or *CiteSeer* and use apt keywords to find 3-5 recent papers in the area.
+\item Perform one-pass on each of the papers. Then read the related work sections.
+\item Finding a recent survey paper is the best situation.
+\item If there is no survey paper, find shared citations and repeated author names to identify the key papers and researchers in the field. 
+\item Download the key papers.
+\item Go to the websites of key researchers and identify the top conferences by checking where they have published recently.
+\item Go to the conference websites, scan through recent papers. One should be able to identify high-quality related work on scanning.
+\item Make two passes through the key papers downloaded before and the ones obtained from the conference website.
+\item Iterate if necessary, to find more influential papers based on shared citations from the bunch.
+
+\end{enumerate}
+ \end{solution}
+
+\part[2] What are some latest research publications you could find on {\it de novo} motif finding? Report one such paper based on Gibbs-sampling-like heuristics and another based on machine learning approaches such as SVM or deep learning. Try to answer this question by looking only at the papers' title/abstract. 
+\begin{solution}
+
+Some latest research publications in de novo motif finding are:
+\begin{enumerate}
+\item Paper based on Gibbs-sampling-like heuristic: \\ \textbf{ProSampler: an ultrafast and accurate motif finder in large ChIP-seq datasets for combinatory motif discovery.} \textsuperscript{\cite{10.1093/bioinformatics/btz290}}\\
+The researchers have developed an ultrafast and accurate motif-finding algorithm using a combination of novel discriminative heuristic seeding, Gibbs sampling and length extension methods. The tool is named ProSampler.
+The core algorithm has the following steps:
+\begin{enumerate}
+\item Generating background sequences
+\item Indentifying significant k-mers
+\item Constructing preliminary motifs and their position weight matrices.
+\item Constructing the motif similarity graph
+\item Gibbs sampling
+\item Extending core motifs
+\end{enumerate}
+\pagebreak
+\item \textbf{A De Novo Shape Motif Discovery Algorithm Reveals Preferences of Transcription Factors for DNA Shape Beyond Sequence Motifs.}\textsuperscript{\cite{SAMEE201927}}\\
+The paper presents ShapeMF, a Gibbs sampling algorithm that identifies the de novo shape motifs by working on DNA shape data and thus extending de novo motif discovery.
+\item Paper based on SVM/ Deep learning:\\
+\textbf{DeepFinder: An integration of feature-based and deep learning approach for DNA motif discovery}\textsuperscript{\cite{deepfinder}}\\
+ DeepFinder is a motif discovery pipeline which uses an ensemble of motif discovery tools like MEME, Bioprospector, MDSCAN, and MotifSampler for the initial prediction of candidate binding sites from a subset of input sequences. Then from these candidate binding sites features are extracted for a deep neural network. This is then used to construct a motif prediction model.
+\end{enumerate}
+\end{solution}
+
+\end{parts}
+
+\bibliographystyle{ieeetr}
+\bibliography{References}
+
+
+\end{questions}
+\end{document}
