@@ -1,0 +1,217 @@
+\documentclass[solution,addpoints,12pt]{exam}
+% * <rbiswas876@gmail.com> 2018-09-15T05:02:48.548Z:
+% * nmanik@cse.iitm.ac.in
+%
+% ^.
+\printanswers
+\usepackage{amsmath,amssymb,textcomp,algpseudocode,algorithm, fixltx2e}
+\usepackage{listings,enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\RP}{\ensuremath{\mathsf{RP}}}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
+\newcommand{\dx}{\mathrm{d}x}
+
+
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS6024 : Algorithmic Approaches to Computational Biology  \hfill Release Date: Aug 5}
+\vspace{3mm}\\
+\noindent 
+{\sf Assignment 1 \hfill Due Date : Aug 13, 23:55 }
+%{\sf ~\hfill }
+\vspace{3mm}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Roll No: BE16B002} \hfill  {\sf Name: Anoubhav Agarwaal}   }% ROLL NO AND NAME HERE
+
+
+%{{\sf Collaborators :}} %Names of the collaborators (if any).%
+
+\noindent{\sf {References: \href{https://cp-algorithms.com/graph/euler_path.html}{Q1. Eulerian path}, \href{https://www.youtube.com/watch?v=iPLQgXUiU14}{Q2. K-Universal circular string}}  %Reference materials, if any.%
+
+
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+
+
+\question[6] {[Choose your DS!]}: We saw the algorithm below to construct an Eulerian cycle in a graph (with $n$ nodes and $m$ edges). What data structures would you choose to implement Lines 4,5,6 in the algorithm below, so that the overall algorithm has $O(m)$ running time complexity? Please assume that Graph is a balanced and strongly connected directed graph provided as an adjacency list. 
+
+\begin{lstlisting}[basicstyle=\small\ttfamily,numbers=left,tabsize=2, escapeinside={(*}{*)}]
+EULERIAN_CYCLE(Graph)
+  form a cycle Cycle by randomly walking in Graph (don't revisit same edge!)
+  while there are unexplored edges in Graph
+    select a node newStart in Cycle with still unexplored edges
+    form a cycle Cycle(*$'$*) (starting at newStart) & then randomly walking
+    Cycle <- merge(Cycle, Cycle(*$'$*))
+  return Cycle
+\end{lstlisting}
+
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
+\begin{solution}
+I would use a \textbf{stack} to implement the following lines, to ensure a time complexity of O(m). The basic algorithm using a stack is as follows:
+{
+\begin{enumerate}[noitemsep,nolistsep]
+    \item Check whether there is a eulerian circuit in given graph.
+\vspace{1mm}
+    \item Initialize a stack. Push a start vertex to stack.
+\vspace{1mm}
+    \item While the stack is not empty:
+  \begin{enumerate}
+    \item Obtain the vertex V at the top of stack.
+    \item If degree of vertex V is zero:
+  \begin{enumerate}
+    \item Add V to the eulerian path.
+    \item Pop the vertex V from stack.
+  \end{enumerate}
+    \item Else:
+  \begin{enumerate}
+    \item Pick any outgoing edge from vertex V
+    \item Remove the edge from the graph
+    \item Push the second end of this edge to the stack
+  \end{enumerate}
+  \end{enumerate}
+\end{enumerate}}
+\end{solution}
+
+
+\question[6] {[Counting ambiguity]}: 
+\begin{parts}
+\part[3] Find a simple DNA sequence whose k-mer composition agrees with that of exactly 5 other DNA sequences. (Hint: What would its de Bruijn graph look like? Optional: Do ``articulation points'' help identify contigs in this graph, or do you need ``maximal non-branching paths'' as mentioned in the book/class?) 
+%\begin{solution}
+%\end{solution}
+
+\part[3] How many 3-universal circular binary strings are there? Justify. (Optional: How would you count the number of k-universal circular strings?)  
+\begin{solution}
+There are \textbf{two} 3-universal circular binary strings. These are obtained by finding the unique circular Eulerian cycles in the De Bruijn Graph of all possible binary 2-mers by enumeration. The two strings are: 00010111 and 11101000.
+The complementary sequence of a De Bruijn sequence is also a De Bruijn sequence.\textsuperscript{\cite{xie1987notes}}
+\end{solution}
+\end{parts}
+
+
+\question[11] {[Coding warmup]}: 
+\begin{parts}
+    \part[8] Implement an algorithm to construct a de Bruijn graph from a $k$-mer collection as specified in the HackerRank contest  at \url{https://www.hackerrank.com/assignment-1cs6024}. (Note: Create your \url{https://www.hackerrank.com} account using your smail id, and ROLL NUMBER as your user-name. Languages supported are C, C++, Java, Python, and R (use only one)).
+%Upload code in hackerrank
+
+    \part[3] In addition, write here in this document the key data structure you used to implement the code, and associated time and space complexity of your implementation. Does you algorithm work for any value of $k$?
+\begin{solution}
+The key data structure I have used is a \textbf{list of tuples} containing the ends of each edge. The algorithm works for any length $k$. The algorithm is divided into three parts:
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+ Operation & Time complexity & Space complexity\\ [0.1ex] 
+ \hline
+ \hline
+ Creation of edge list & O(n) &  O(2*(k-1) *n) $\approx$ O(n)\\ 
+
+ Sorting of edge list & O(nlogn*2*(k-1)) $\approx$ O(nlogn),  & in place \\ 
+ Printing of edge list & O(n) & No additional space \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\vspace{2mm}
+For small k,
+Overall time complexity: $O(nlogn)$; 
+Overall space complexity: $O(n)$
+ \end{solution}
+\end{parts}
+
+
+\question[11]{[Dissecting a food-poisoning outbreak]} Our campus doctor has obtained bacterial samples likely behind a recent food-poisoning outbreak in the campus (hypothetical of course!). As a bioinformatician, you are asked to assemble the genome of this bacteria from a set of whole-genome sequence reads obtained from these samples with an Illumina sequencer (see attached campusbacteria\_R[12].fastq files). You can use Velvet, which is one of a number of {\it de novo} assemblers that uses short read sets as input and construct de Bruijn graphs for genome assembly, inside the Galaxy framework.
+
+You can use any of these Galaxy Servers that host Velvet Assembler.
+{\small 
+\begin{itemize}[noitemsep,nolistsep]
+    \item \url{https://usegalaxy.org.au/}
+    \item \url{http://bf2i-galaxy.insa-lyon.fr:8080/}
+    \item \url{https://usegalaxy.eu/}
+\end{itemize}}
+Helpful Link: \url{https://galaxyproject.github.io/training-material/topics/assembly/tutorials/general-introduction/tutorial.html} for genome assembly workflow of a different data. 
+
+\begin{parts}
+\part[2] What is the average number of wrong base calls in the last 5 positions of the $1^{st}$ read in campusbacteria\_R2.fastq file? (Hint: Use quality scores provided by the Illumina 1.9 Next Generation Sequencer (NGS).
+ \begin{solution}
+In Illumina 1.8$+$ the raw reads lie in the range(0, 41). The Phred score is the ASCII value - 33. The last 5 positions of the 1st read in R2.fastq are \textbf{D*CF2}  Their respective phred scores are 35, 9, 34, 37, 17. A Phred score of a base: 
+\begin{center}
+$Q_{phred} = -10*{\log_{10} e}$
+\end{center}
+where $e$ is the estimated probability of a base being wrong. 
+The average number of wrong base calls in the last 5 positions of the 1st read is its expectation value. This is given by: $\Sigma\: e*no.of \:bases$.
+\vspace{1mm}
+\begin{center}
+$Avg = 3.16*10^{-4} * 1 + 0.1259*1 + 3.98*10^{-4} * 1 + 1.995*10^{-4} * 1 + 0.01995 * 1 \linebreak
+\vspace{1mm} Avg = \textbf{0.1468}$ average number of wrong base calls
+\end{center}
+ \end{solution}
+
+\part[2] The first step in any sequence analysis is to run FastQC tool. Using its output, report the length of each read, and calculate the average coverage of the genome by all reads (given a guess that the culprit food-poisoning bacteria is {\it Staphylococcus aureus} with a genome size of 197,394 bp; note that average genome coverage is the average number of reads that span a nucleotide in the genome)?
+ \begin{solution}
+The length of each read is \textbf{150 bp}. The number of sequences for the paired ends is 11167 + 11167 = 22334. Its given that the bacteria has a genome size of 197,394 bp. Hence, the genome coverage is given by:
+\begin{center}
+$Genome \:coverage = \dfrac{22334 * 150}{197394} 	\approx 17X \:coverage$
+\end{center}
+ \end{solution}
+
+\part[3] Run velvet with a k-mer size of 29, and report how many contigs have been built, and what the mean, min and max length of the contigs are?
+\begin{solution}
+For K $=$ 29; Number of contigs built $=$ 246; Mean length$=$ 740.24; \linebreak Minimum length $=$ 1; Maximum length $=$ 9449
+\end{solution}
+
+\part[4] Rerun velvet with the following k-mer sizes: 23, 57, 100, and report for each case the above contig metrics in table format. Comment on the trade-off between small and large k-mer values, and which k value looks optimal to you.  
+\begin{solution}
+\begin{tabular}{ |c|c|c|c|c| } 
+\hline
+ K & Number of Contigs & Mean Length & Min Length & Max Length\\ [0.4ex] 
+ \hline
+ \hline
+23 & 269 & 677.67 & 1 & 9449 \\ 
+57 & 123 & 1472.45 & 1 & 24019\\ 
+100 & 223 & 733.53 & 2 & 4652\\ 
+ \hline
+
+\end{tabular}
+\vspace{2mm}
+\linebreak
+
+Larger values of k lead to a decrease in the number of contigs, which is desirable. However, it also increases the chances of error in a k-mer.\textsuperscript{\cite{10.1093/bioinformatics/btt310}} Hence, on increasing k, assembly becomes easier due to fewer contigs, but error rates increase. Whereas, for smaller k, the genome assembly is more difficult, but the error rate is reduced. In this example, k = 57, is the optimal k value due to the few number of contigs and relatively lower read error rate compared to k = 100. 
+ \end{solution}
+\end{parts}
+
+
+\question[6] {[Research warmup]}: Provide properly-formatted references for papers in this solution.
+\begin{parts} 
+\part[3] Browse through the latest issue of top-ranked bioinformatics or systems biology journals (e.g., Bioinformatics, PLoS Computational Biology, Cell Systems, Molecular Systems Biology, etc.). Which one article caught your attention/interest the most based on only the titles and/or abstracts, and why? 
+ \begin{solution}
+\href{https://doi.org/10.1093/bioinformatics/bty1051}{\textbf{\textit{DeepPhos: prediction of protein phosphorylation sites with deep learning.}}}\textsuperscript{\cite{10.1093/bioinformatics/bty1051}} This article caught my attention due to the following reasons:
+\begin{itemize}
+\item In my last semester, we had briefly touched upon cell signaling pathways through phosphorylation of proteins in my Structural Biology course. These signals can control essential tasks such as cell division and even cell death. Phosphorylation changes the structural conformation of a protein leading to change in function.
+\item It uses deep learning for the given task. I have explored the use of DL in more conventional computer vision tasks. However, I have not yet read about its applications in the field of genomics. I am curious to learn how this is framed as a deep learning problem.
+\item It presents a novel Deep Learning architecture specifically for the prediction of protein phosphorylation sites.
+\item The source code for the paper is publicly available.
+\end{itemize}
+ \end{solution}
+
+\part[3] What is the latest research publication you could find on {\it de novo} genome assembly (i.e., genome assembly as seen in class without the knowledge of a reference genome), and what key algorithm did it use?
+ \begin{solution}
+\href{https://www.biorxiv.org/content/early/2019/06/08/656306}{\textbf{\textit{Yet another de novo genome assembler.}}}\textsuperscript{\cite{Vaser656306}} \textit{\scriptsize{(posted online on May 31, 2019)}}
+
+The paper presents a novel tool called \textbf{Ra} (Rapid Assembler) for the de novo genome assembly problem for long uncorrelated reads. The underlying algorithm is based on sequence classification and assembly graphs. It is based upon the \textbf{Overlap-Layout-Consensus paradigm}.
+
+\end{solution}
+\end{parts}
+
+\bibliographystyle{ieeetr}
+\bibliography{References}
+
+\end{questions}
+
+\end{document}
