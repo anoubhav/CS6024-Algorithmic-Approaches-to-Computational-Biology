@@ -1,0 +1,107 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,textcomp,algpseudocode,algorithm, fixltx2e, hyperref}
+\usepackage{listings,enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+\newcommand{\RP}{\ensuremath{\mathsf{RP}}}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
+\newcommand{\dx}{\mathrm{d}x}
+
+
+\begin{document}
+\noindent
+\begin{center}\large{Project Proposal}\end{center}
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS6024 : Algorithmic Approaches to Computational Biology  \hfill }
+\noindent
+\begin{flushleft} 
+{\sf Team name: \textbf{BioBois} \hfill  }\\
+\noindent
+{\sf Project Title:\\ \textbf{DeepVAE: A deep learning approach for latent space modelling of cancer gene expression data.}}
+\end{flushleft}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Members: Rahul Nikam BT18D011 and  Anoubhav Agarwaal BE16B002}   }% ROLL NO AND NAME HERE
+
+
+%{{\sf Collaborators :}} %Names of the collaborators (if any).
+
+%{{\sf References:}} %Reference materials, if any.
+\vspace{3mm}
+\hrule
+\vspace{2mm}
+\begin{flushleft}\textbf{Introduction/Motivation:}\end{flushleft}
+Understanding cancer transcriptomic data is crucial for stratifying prevalent tumor types. If we can extract the hidden underlying representation from the gene expression profile, we can use it to predict a tumor's response to specific targeted therapies. Inferring the hidden distribution of data falls under the family of Unsupervised Learning algorithms. Generative models are one such type of algorithms, which have been used in vision and natural language to generate realistic-human level visuals and text. It can be hugely transformative if it can do the same for biomedicine. Extracting a biologically relevant latent space is the first critical in our endeavor to demystify cancer. Hence, we had picked an influential paper by Way and Greene(2018)\textsuperscript{\cite{q5c}}, for our paper presentation. Our primary research objective is to extend the results of Way and Greene(2018)\textsuperscript{\cite{q5c}} to obtain a better biologically relevant latent space using Deep Variational Auto-Encoder. The learned representation is evaluated based on the recapitulation of biological signals in the t-SNE plots and pan-cancer classification accuracy. The pan-cancer classification accuracy is compared with state-of-the-art CNN methods. We also perform model interpretability through SHAP analysis and others. The contributing genes and its significant pathways are presented for all tumor types. \\
+
+\begin{flushleft}\textbf{Related work:}\end{flushleft}
+\begin{itemize}
+ \item Way and Greene(2018)\textsuperscript{\cite{q5c}} uses a shallow VAE for extracting biologically relevant latent space from cancer gene expression data. The decoder weights of the shallow network were directly used to identify the contributions of significant genes. Gene Ontology Enrichment analysis was performed to determine significant pathways. 
+ \item The authors of \cite{Wang2019, Titus2018} mention that they extend Tybalt to learn a latent space for methylation data of lung cancer and breast cancer, respectively. 
+ \item \cite{Lou2019} Used denoising AE to identify gene signatures related to asthma severity. Enrichment pathway analysis was performed on high-contributing genes. These genes were used to develop supervised random forest classifier to determine asthma severity.
+ \item \cite{Levy2019} Uses VAE on pan-cancer methylation data and performs downstream processed such as cell-type deconvolution, pan-cancer classification, and subject age prediction. They perform SHAP analysis to determine the importance of CpGs.
+ \item \cite{Li2017} An influential paper of pan-cancer classification using K-nearest neighbors/Genetic Algorithms. They achieved an accuracy of 90\%.
+ \item \cite{Guia2019, Lyu2018} Recent deep learning-based pan-cancer classification achieved state of the art performance of 96\%. They employ Convolutional Neural Networks on the gene expression data.
+\end{itemize}
+
+\begin{flushleft}\textbf{Contributions:}\end{flushleft}
+\begin{enumerate}
+\item To extract and characterize the latent space obtained using deep VAEs.
+\item To extend model interpretability using SHAP analysis and others. 
+\item To develop a deep VAE framework for any disease gene expression dataset.
+\end{enumerate}
+The \textbf{methodology} is covered in the expected outcomes section.
+
+\begin{flushleft}\textbf{Expected result/outcomes:}\end{flushleft}
+\begin{enumerate}
+        \item The successful extension of Tybalt to deep variational autoencoders.
+	\item To gauge the usefulness of deep VAE compression at different latent vector dimensions. 
+	\item To produce higher quality biologically relevant representations (or latent space) than Tybalt. 
+	\item The t-SNE plot should retain more biological signal than Tybalt,
+	\item Higher pan-cancer classification accuracy over 33 prevalent tumor types.
+	\item To employ transfer learning on the encoder network for the downstream prediction tasks.
+	\item To classify patient sex using the encoder network. To identify and confirm that the contributing genes correspond to those located on the sex chromosome.
+	\item To perform a comparison (accuracy) between the state-of-the-art pan-cancer classifiers (based on convolutional neural networks) and the deep encoder network.
+	\item To extend model interpretability for deep VAE based on SHAP and LIME analysis and identify the contributing genes for each tumor type.
+\item To report the significant pathways using Gene ontology enrichment analysis.
+\end{enumerate}
+\break
+\begin{flushleft}\textbf{Timeline/workload:}\end{flushleft}
+\begin{table}[h!]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{|l|c|l|}
+			\hline
+			Timeline & Rahul & \multicolumn{1}{c|}{Anoubhav} \\ \hline
+			4-9 October & \multicolumn{2}{c|}{Replication and code Deep VAE} \\ \hline
+			10-11 October & \multicolumn{1}{l|}{Modification of VAE model to classification using SVM, RF etc.} & t-SNE, clustering \\ \hline
+			12-13 October & \multicolumn{1}{l|}{-} & find significant genes using SHAP or similar library \\ \hline
+			14-15 October & \multicolumn{2}{c|}{Enrichment analysis; for the SHAPS.} \\ \hline
+			16-17 October & \multicolumn{2}{c|}{Getting Hypothesis to significant genes} \\ \hline
+			18 October & \multicolumn{2}{c|}{Buffer} \\ \hline
+			19-21 October & \multicolumn{2}{c|}{Research on possible improvement in  code} \\ \hline
+			22 October & \multicolumn{2}{c|}{Meeting Day to decide further work} \\ \hline
+			23-27 October & \multicolumn{2}{c|}{Work on the individual task assigned in meeting for 5 days} \\ \hline
+			28-29 October & \multicolumn{2}{c|}{Buffer} \\ \hline
+			30 October - 3 November & \multicolumn{2}{c|}{Minor additional experiments and PPT/report making} \\ \hline
+		\end{tabular}%
+}
+\end{table}
+
+\bibliographystyle{ieeetr}
+\bibliography{References}
+
+\end{document}

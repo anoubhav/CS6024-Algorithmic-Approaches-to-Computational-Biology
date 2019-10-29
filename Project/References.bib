@@ -1,0 +1,139 @@
+@article{Guia2019,
+author = {Guia, Joseph M De},
+file = {:home/rahul/Desktop/new/DeepGx for cancer classification 2019 95 acc.pdf:pdf},
+isbn = {9781450368681},
+keywords = {as a global,bioinformatics,by the world cancer,cancer incidence will increase,convolutional,deep learning,gene expression,machine learning,neural network,problem and projected that,report 2014 emphasized cancer,to},
+pages = {913--920},
+title = {{DeepGx : Deep Learning Using Gene Expression for Cancer Classification}},
+year = {2019}
+}
+
+@article{Lyu2018,
+abstract = {Differential analysis occupies the most significant portion of the standard practices of RNA-Seq analysis. However, the conventional method is matching the tumor samples to the normal samples, which are both from the same tumor type. The output using such method would fail in differentiating tumor types because it lacks the knowledge from other tumor types. Pan-Cancer Atlas provides us with abundant information on 33 prevalent tumor types which could be used as prior knowledge to generate tumor-specific biomarkers. In this paper, we embedded the high dimensional RNA-Seq data into 2-D images and used a convolutional neural network to make classification of the 33 tumor types. The final accuracy we got was 95.59{\%}, higher than another paper applying GA/KNN method on the same dataset. Based on the idea of Guided Grad Cam, as to each class, we generated significance heat-map for all the genes. By doing functional analysis on the genes with high intensities in the heat-maps, we validated that these top genes are related to tumor-specific pathways, and some of them have already been used as biomarkers, which proved the effectiveness of our method. As far as we know, we are the first to apply convolutional neural network on Pan-Cancer Atlas for classification, and we are also the first to match the significance of classification with the importance of genes. Our experiment results show that our method has a good performance and could also apply in other genomics data.},
+author = {Lyu, Boyu and Haque, Anamul},
+doi = {10.1145/3233547.3233588},
+file = {:home/rahul/Desktop/new/DL for cancer classification sota 95 acc 2018.pdf:pdf},
+isbn = {9781450357944},
+journal = {ACM-BCB 2018 - Proceedings of the 2018 ACM International Conference on Bioinformatics, Computational Biology, and Health Informatics},
+keywords = {Convolutional neural network,Deep learning,Pan-cancer atlas,Tumor type classification},
+number = {August},
+pages = {89--96},
+title = {{Deep Learning Based Tumor Type Classification Using Gene Expression Data}},
+year = {2018}
+}
+
+
+
+@article {q5c,
+	author = {Way, Gregory P. and Greene, Casey S.},
+	title = {Extracting a Biologically Relevant Latent Space from Cancer Transcriptomes with Variational Autoencoders},
+	elocation-id = {174474},
+	year = {2017},
+	doi = {10.1101/174474},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {The Cancer Genome Atlas (TCGA) has profiled over 10,000 tumors across 33 different cancer-types for many genomic features, including gene expression levels. Gene expression measurements capture substantial information about the state of each tumor. Certain classes of deep neural network models are capable of learning a meaningful latent space. Such a latent space could be used to explore and generate hypothetical gene expression profiles under various types of molecular and genetic perturbation. For example, one might wish to use such a model to predict a tumor{\textquoteright}s response to specific therapies or to characterize complex gene expression activations existing in differential proportions in different tumors. Variational autoencoders (VAEs) are a deep neural network approach capable of generating meaningful latent spaces for image and text data. In this work, we sought to determine the extent to which a VAE can be trained to model cancer gene expression, and whether or not such a VAE would capture biologically-relevant features. In the following report, we introduce a VAE trained on TCGA pan-cancer RNA-seq data, identify specific patterns in the VAE encoded features, and discuss potential merits of the approach. We name our method {\textquotedblleft}Tybalt{\textquotedblright} after an instigative, cat-like character who sets a cascading chain of events in motion in Shakespeare{\textquoteright}s {\textquotedblleft}Romeo and Juliet{\textquotedblright}. From a systems biology perspective, Tybalt could one day aid in cancer stratification or predict specific activated expression patterns that would result from genetic changes or treatment effects.},
+	URL = {https://www.biorxiv.org/content/early/2017/10/02/174474},
+	eprint = {https://www.biorxiv.org/content/early/2017/10/02/174474.full.pdf},
+	journal = {bioRxiv}
+}
+
+
+@article{Lou2019,
+abstract = {The pathogenesis of asthma is a complex process involving multiple genes and pathways. Identifying biomarkers from asthma datasets, especially those that include heterogeneous subpopulations, is challenging. In this work, we developed a framework that incorporates a denoising autoencoder and a supervised learning approach to identify gene signatures related to asthma severity. The autoencoder embeds high-dimensional gene expression data into a lower-dimensional latent space in an unsupervised fashion, enabling us to extract distinguishing features from gene expression data. We found that the weights on hidden units in this latent space correlate well with previously defined and clinically relevant clusters of patients. Moreover, pathway analysis based on each gene's contribution to the hidden units showed significant enrichment in known asthma-related pathways. We then used genes that contribute most to the hidden units to develop a secondary supervised classifier (based on random forest) for directly predicting asthma severity. The random-forest importance metric from this classifier identified a signature based on 50 key genes, which can predict severity with an AUROC of 0.81 and thus have potential as diagnostic biomarkers. Furthermore, the key genes could also be used for successfully estimating, via support-vector-machine regression, the FEV1/FVC ratios across patients, achieving pre-and post-treatment correlations of 0.56 and 0.65, respectively (between predicted and observed values). The 50 biomarker candidate genes can be found in supplementary. The source codes are freely available upon request.},
+author = {Lou, Shaoke and Li, Tianxiao and Spakowicz, Daniel and Chupp, Geoffrey Lowell and Gerstein, Mark},
+doi = {10.1101/646976},
+file = {:home/rahul/Desktop/new/Latent space gene expression asthma patients.pdf:pdf},
+title = {{Latent-space embedding of expression data identifies gene signatures from sputum samples of asthmatic patients}},
+url = {http://dx.doi.org/10.1101/646976},
+year = {2019}
+}
+
+@article{Titus2018,
+abstract = {Recent advances in deep learning, particularly unsupervised approaches, have shown promise for furthering our biological knowledge through their application to gene expression datasets, though applications to epigenomic data are lacking. Here, we employ an unsupervised deep learning framework with variational autoencoders (VAEs) to learn latent representations of the DNA methylation landscape from three independent breast tumor datasets. Through interrogation of methylation-based learned latent dimension activation values, we demonstrate the feasibility of VAEs to track representative differential methylation patterns among clinical subtypes of tumors. CpGs whose methylation was most correlated VAE latent dimension activation values were significantly enriched for CpG sparse regulatory regions of the genome including enhancer regions. In addition, through comparison with LASSO, we show the utility of the VAE approach for revealing novel information about CpG DNA methylation patterns in breast cancer.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:1011.1669v3},
+author = {Titus, Alexander J. and Wilkins, Owen M and Bobak, Carly A and Christensen, Brock C},
+doi = {10.1101/433763},
+eprint = {arXiv:1011.1669v3},
+file = {:home/rahul/Desktop/new/methylation data for breast cancer VAE.pdf:pdf},
+isbn = {0321387007},
+issn = {1098-6596},
+journal = {bioRxiv},
+pages = {433763},
+pmid = {17693407},
+title = {{Unsupervised deep learning with variational autoencoders applied to breast tumor genome-wide DNA methylation data with biologic feature extraction}},
+url = {https://www.biorxiv.org/content/early/2018/11/07/433763},
+year = {2018}
+}
+
+@article{Wang2019,
+abstract = {Lung cancer causes over one million deaths each year worldwide. DNA methylation is a well-defined epigenetics factor in genome data analyses for model training. In this article, we explore the applications of unsupervised deep learning method, variational autoencoders, using DNA methylation data of lung cancer samples downloaded from the GDC TCGA project and perform further work with latent features. We show the logistic regression classifier on the encoded latent features accurately classifies cancer subtypes.},
+author = {Wang, Zhenxing and Wang, Yadong},
+doi = {10.1109/BIBM.2018.8621365},
+file = {:home/rahul/Desktop/new/methylation data for lung cancer VAE.pdf:pdf},
+isbn = {9781538654880},
+journal = {Proceedings - 2018 IEEE International Conference on Bioinformatics and Biomedicine, BIBM 2018},
+keywords = {DNA methylation,lung cancer,variational autoencoder},
+pages = {1286--1289},
+publisher = {IEEE},
+title = {{Exploring DNA Methylation Data of Lung Cancer Samples with Variational Autoencoders}},
+year = {2019}
+}
+
+@article{Levy2019,
+abstract = {Background The use of deep learning in analyses of DNA methylation data is beginning to emerge and distill non-linear relationships among high-dimensional data features. However, a generalized and user-friendly approach for execution, training, and interpreting deep learning models for methylation data is lacking.
+
+Results We introduce and demonstrate the robust performance of MethylNet on downstream tasks of DNA methylation analysis, including cell-type deconvolution, pan-cancer classification, and subject age prediction. We interrogate the learned features from a pan-cancer classification to show high fidelity clustering of cancer subtypes, and compare the importance assigned to CpGs for the age and cell-type analyses to demonstrate concordance with expected biology.
+
+Conclusions Our findings demonstrate high accuracy of end-to-end deep learning methods on methylation prediction tasks. Together, our results highlight the promise of future steps to use transfer learning, hyperparameter optimization and feature interpretations on DNA methylation data.
+
+*   450K
+    :   HumanMethylation450
+    
+    850K
+    :   HumanMethylationEPIC
+    
+    ANN
+    :   Artificial Neural Networks
+    CpG
+    :   Cytosine-Guanine Dinucleotides
+    CWL
+    :   Common Workflow Language
+    DNAm
+    :   DNA Methylation
+    EWAS
+    :   Epigenome-Wide Association Studies
+    SHAP
+    :   Shapley Additive Feature Explanations
+    SVM
+    :   Support Vector Machine
+    UMAP
+    :   Uniform Manifold Approximation and Projection
+    VAE
+    :   Variational Auto-encoders},
+author = {Levy, Joshua J and Titus, Alexander J and Petersen, Curtis L and Chen, Youdinghuan and Salas, Lucas A and Christensen, Brock C},
+doi = {10.1101/692665},
+file = {:home/rahul/Desktop/new/MethylNet panCancer VAE.pdf:pdf},
+journal = {bioRxiv},
+keywords = {deep learning,high performance computing,methylation,workflow},
+title = {{MethylNet : A Modular Deep Learning Approach to Methylation Prediction}},
+year = {2019}
+}
+
+@article{Li2017,
+abstract = {Background: The Cancer Genome Atlas (TCGA) has generated comprehensive molecular profiles. We aim to identify a set of genes whose expression patterns can distinguish diverse tumor types. Those features may serve as biomarkers for tumor diagnosis and drug development. Methods: Using RNA-seq expression data, we undertook a pan-cancer classification of 9,096 TCGA tumor samples representing 31 tumor types. We randomly assigned 75{\%} of samples into training and 25{\%} into testing, proportionally allocating samples from each tumor type. Results: We could correctly classify more than 90{\%} of the test set samples. Accuracies were high for all but three of the 31 tumor types, in particular, for READ (rectum adenocarcinoma) which was largely indistinguishable from COAD (colon adenocarcinoma). We also carried out pan-cancer classification, separately for males and females, on 23 sex non-specific tumor types (those unrelated to reproductive organs). Results from these gender-specific analyses largely recapitulated results when gender was ignored. Remarkably, more than 80{\%} of the 100 most discriminative genes selected from each gender separately overlapped. Genes that were differentially expressed between genders included BNC1, FAT2, FOXA1, and HOXA11. FOXA1 has been shown to play a role for sexual dimorphism in liver cancer. The differentially discriminative genes we identified might be important for the gender differences in tumor incidence and survival. Conclusions: We were able to identify many sets of 20 genes that could correctly classify more than 90{\%} of the samples from 31 different tumor types using TCGA RNA-seq data. This accuracy is remarkable given the number of the tumor types and the total number of samples involved. We achieved similar results when we analyzed 23 non-sex-specific tumor types separately for males and females. We regard the frequency with which a gene appeared in those sets as measuring its importance for tumor classification. One third of the 50 most frequently appearing genes were pseudogenes; the degree of enrichment may be indicative of their importance in tumor classification. Lastly, we identified a few genes that might play a role in sexual dimorphism in certain cancers.},
+author = {Li, Yuanyuan and Kang, Kai and Krahn, Juno M. and Croutwater, Nicole and Lee, Kevin and Umbach, David M. and Li, Leping},
+doi = {10.1186/s12864-017-3906-0},
+file = {:home/rahul/Desktop/new/most cited pan cancer classification knn GA 2017.pdf:pdf},
+isbn = {1286401739},
+issn = {14712164},
+journal = {BMC Genomics},
+keywords = {And sex dimorphism,Classification,Ga/KNN,Pan-cancer,RNA-seq,TCGA},
+number = {1},
+pages = {1--13},
+publisher = {BMC Genomics},
+title = {{A comprehensive genomic pan-cancer classification using The Cancer Genome Atlas gene expression data}},
+volume = {18},
+year = {2017}
+}
+
